@@ -3,17 +3,93 @@ let videoWidth, videoHeight;
 let handhandCtx, videoCanvas;
 const VIDEO_WIDTH = 720;
 const VIDEO_HEIGHT = 405;
+const knnClassifier = ml5.KNNClassifier();
 
-//
-// start de applicatie
-//
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+let fingerLookupIndices = {
+  thumb: [0, 1, 2, 3, 4],
+  indexFinger: [0, 5, 6, 7, 8],
+  middleFinger: [0, 9, 10, 11, 12],
+  ringFinger: [0, 13, 14, 15, 16],
+  pinky: [0, 17, 18, 19, 20],
+};
+
+let detectedPose = false;
+let resultsArray = [];
+
+const btnTrainUp = document.getElementById("btnTrainUp");
+const btnTrainDown = document.getElementById("btnTrainDown");
+const btnTrainLeft = document.getElementById("btnTrainLeft");
+const btnTrainRight = document.getElementById("btnTrainRight");
+const btnClassify = document.getElementById("btnClassify");
+
+btnTrainUp.addEventListener("click", () => {
+  learn("Up");
+  console.log("learn up");
+});
+btnTrainDown.addEventListener("click", () => {
+  learn("Down");
+  console.log("learn down");
+});
+btnTrainLeft.addEventListener("click", () => {
+  learn("Left");
+  console.log("learn left");
+});
+btnTrainRight.addEventListener("click", () => {
+  learn("Right");
+  console.log("learn right");
+});
+btnClassify.addEventListener("click", () => {
+  classify();
+  console.log("start classify");
+});
+
+function learn(label) {
+  knnClassifier.addExample(resultsArray, label);
+}
+
+function classify() {
+  setInterval(() => {
+    console.log(detectedPose);
+    if (detectedPose) {
+      knnClassifier.classify(resultsArray, (err, result) => {
+        checkDir(result.label);
+      });
+    }
+  });
+}
+
+function checkDir(dir) {
+  switch (true) {
+    case dir == "Up":
+      console.log("up");
+      turnUp();
+      break;
+    case dir == "Down":
+      console.log("Down");
+      turnDown();
+      break;
+    case dir == "Left":
+      console.log("Left");
+      turnLeft();
+      break;
+    case dir == "Right":
+      console.log("Right");
+      turnRight();
+      break;
+    default:
+      console.log("no pose");
+      break;
+  }
+}
+
 async function main() {
   model = await handpose.load();
   const video = await setupCamera();
   video.play();
   startLandmarkDetection(video);
 }
-
 //
 // start de webcam
 //
@@ -72,56 +148,16 @@ async function startLandmarkDetection(video) {
 //
 async function predictLandmarks() {
   handCtx.drawImage(video, 0, 0, videoWidth, videoHeight, 0, 0, videoCanvas.width, videoCanvas.height);
-  // prediction!
   const predictions = await model.estimateHands(video); // ,true voor flip
   if (predictions.length > 0) {
+    const result = predictions[0].landmarks;
+    resultsArray = result.flat();
     drawHand(handCtx, predictions[0].landmarks, predictions[0].annotations);
-    checkHandPosition(predictions[0].landmarks[0][0], predictions[0].landmarks[0][1]);
+    detectedPose = true;
+  } else {
+    detectedPose = false;
   }
-  // 60 keer per seconde is veel, gebruik setTimeout om minder vaak te predicten
   requestAnimationFrame(predictLandmarks);
-  // setTimeout(()=>predictLandmarks(), 1000)
-}
-
-function checkHandPosition(x, y) {
-  const screenWidth = videoWidth; // Assuming the video width represents the screen width
-  const screenHeight = videoHeight; // Assuming the video height represents the screen height
-
-  const screenCenterX = screenWidth / 2;
-  const screenCenterY = screenHeight / 2;
-
-  const positionThresholdX = 250; // Adjust this threshold as needed
-  const positionThresholdY = 100;
-
-  switch (true) {
-    case x < screenCenterX - positionThresholdX:
-      console.log("right");
-      turnRight();
-      break;
-    case x > screenCenterX + positionThresholdX:
-      console.log("left");
-      turnLeft();
-      break;
-    default:
-      // Hand position is within the threshold near the horizontal center
-      console.log("x center");
-      break;
-  }
-
-  switch (true) {
-    case y < screenCenterY - positionThresholdY:
-      console.log("Up");
-      turnUp();
-      break;
-    case y > screenCenterY + positionThresholdY:
-      console.log("Down");
-      turnDown();
-      break;
-    default:
-      // Hand position is within the threshold near the vertical center
-      console.log("y center");
-      break;
-  }
 }
 
 //
@@ -129,8 +165,6 @@ function checkHandPosition(x, y) {
 //
 function drawHand(handCtx, keypoints, annotations) {
   // toon alle x,y,z punten van de hele hand in het log venster
-
-  console.log(keypoints[0][0]);
   // punten op alle kootjes kan je rechtstreeks uit keypoints halen
   for (let i = 0; i < keypoints.length; i++) {
     const y = keypoints[i][0];

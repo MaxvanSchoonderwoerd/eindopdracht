@@ -16,8 +16,9 @@
   <body style="margin: 0">
     <div id="wrapper">
       <div class="info">
-        <h1>Handpose controller for a snake game</h1>
-        <p>snake game made by YegorMurunov, handpose controller functionality made by me</p>
+        <h1>Handpose controller voor snake game</h1>
+        <p>Snake spel gemaakt door YegorMurunov, handpose controller functionaliteiten zijn gemaakt door Max van Schoonderwoerd.</p>
+        <p>Train eerst alle richtingen met een hand pose, bijvoorbeeld een vuist maken betekend naar link. Druk daarna op de Begin met detecteren knop.</p>
         <a href="https://github.com/YegorMurunov/snake.js/tree/master">Snake.js repo by YegorMurunov</a>
         <ul>
           <li>Score: <span id="score">0</span></li>
@@ -25,14 +26,18 @@
           <li>Difficulty: <span id="difficulty">Easy</span> <button id="changeDif">Change</button></li>
         </ul>
       </div>
+
       <div class="canvasContainer">
         <canvas style="display: block" id="canvas"></canvas>
         <div id="container">
-          <div class="videoOverlay up">Up</div>
-          <div class="videoOverlay down">Down</div>
-          <div class="videoOverlay left">Left</div>
-          <div class="videoOverlay right">Right</div>
           <canvas id="output"></canvas>
+          <div class="buttons">
+            <button id="btnTrainUp" class="button-18" role="button">Train Up</button>
+            <button id="btnTrainDown" class="button-18" role="button">Train Down</button>
+            <button id="btnTrainLeft" class="button-18" role="button">Train Left</button>
+            <button id="btnTrainRight" class="button-18" role="button">Train Right</button>
+            <button id="btnClassify" class="button-18" role="button">Begin met detecteren</button>
+          </div>
           <video id="video" playsinline></video>
         </div>
       </div>
