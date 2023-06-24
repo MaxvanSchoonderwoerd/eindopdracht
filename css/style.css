@@ -1,10 +1,23 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: arial;
 }
 body {
   background-color: #f9edd2;
   color: #272211;
+}
+
+h2 {
+  background-color: #272211;
+  color: #f9edd2;
+  padding: 0.5rem;
+  font-size: 2rem;
+}
+
+.controls {
+  margin-bottom: 2rem;
+  rotate: -2deg;
 }
 
 p {
@@ -26,9 +39,8 @@ a {
   margin: 0 auto;
 }
 .info {
-  max-width: 600px;
+  max-width: 80vw;
   justify-self: flex-start;
-  font-family: arial;
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 30px;
@@ -169,6 +181,16 @@ video {
   cursor: not-allowed;
   background: rgba(0, 0, 0, 0.08);
   color: rgba(0, 0, 0, 0.3);
+}
+
+.startBtn {
+  font-size: 2rem;
+  height: 3rem;
+  width: 10rem;
+}
+
+footer {
+  margin-top: 1rem;
 }
 
 @media (max-width: 650px) {

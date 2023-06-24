@@ -24,28 +24,28 @@ const btnTrainLeft = document.getElementById("btnTrainLeft");
 const btnTrainRight = document.getElementById("btnTrainRight");
 const btnClassify = document.getElementById("btnClassify");
 
-btnTrainUp.addEventListener("click", () => {
-  learn("Up");
-  console.log("learn up");
-});
-btnTrainDown.addEventListener("click", () => {
-  learn("Down");
-  console.log("learn down");
-});
-btnTrainLeft.addEventListener("click", () => {
-  learn("Left");
-  console.log("learn left");
-});
-btnTrainRight.addEventListener("click", () => {
-  learn("Right");
-  console.log("learn right");
-});
+// btnTrainUp.addEventListener("click", () => {
+//   learn("Up");
+//   console.log("learn up");
+// });
+// btnTrainDown.addEventListener("click", () => {
+//   learn("Down");
+//   console.log("learn down");
+// });
+// btnTrainLeft.addEventListener("click", () => {
+//   learn("Left");
+//   console.log("learn left");
+// });
+// btnTrainRight.addEventListener("click", () => {
+//   learn("Right");
+//   console.log("learn right");
+// });
+// btnSave.addEventListener("click", () => {
+//   knnClassifier.save();
+// });
 btnClassify.addEventListener("click", () => {
   classify();
   console.log("start classify");
-});
-btnSave.addEventListener("click", () => {
-  knnClassifier.save();
 });
 
 function learn(label) {
@@ -65,24 +65,25 @@ function classify() {
 
 function checkDir(dir) {
   switch (true) {
-    case dir == "Up":
+    case dir == 0:
       console.log("up");
       turnUp();
       break;
-    case dir == "Down":
+    case dir == 1:
       console.log("Down");
       turnDown();
       break;
-    case dir == "Left":
+    case dir == 2:
       console.log("Left");
       turnLeft();
       break;
-    case dir == "Right":
+    case dir == 3:
       console.log("Right");
       turnRight();
       break;
     default:
       console.log("no pose");
+      console.log(dir);
       break;
   }
 }
