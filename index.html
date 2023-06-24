@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake JS</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <script defer src="https://unpkg.com/@tensorflow/tfjs-core@2.1.0/dist/tf-core.js"></script>
+    <script defer src="https://unpkg.com/@tensorflow/tfjs-converter@2.1.0/dist/tf-converter.js"></script>
+    <script defer src="https://unpkg.com/@tensorflow/tfjs-backend-webgl@2.1.0/dist/tf-backend-webgl.js"></script>
+    <script defer src="https://unpkg.com/@tensorflow-models/handpose@0.0.6/dist/handpose.js"></script>
+    <script defer src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+    <script defer src="/js/drawHands.js"></script>
+    <script defer src="./js/game.js"></script>
+  </head>
+  <body style="margin: 0">
+    <div id="wrapper">
+      <div class="info">
+        <h1>Handpose controller for a snake game</h1>
+        <p>snake game made by YegorMurunov, handpose controller functionality made by me</p>
+        <a href="https://github.com/YegorMurunov/snake.js/tree/master">Snake.js repo by YegorMurunov</a>
+        <ul>
+          <li>Score: <span id="score">0</span></li>
+          <li>Best Score: <span id="best-score">0</span></li>
+          <li>Difficulty: <span id="difficulty">Easy</span> <button id="changeDif">Change</button></li>
+        </ul>
+      </div>
+      <div class="canvasContainer">
+        <canvas style="display: block" id="canvas"></canvas>
+        <div id="container">
+          <div class="videoOverlay up">Up</div>
+          <div class="videoOverlay down">Down</div>
+          <div class="videoOverlay left">Left</div>
+          <div class="videoOverlay right">Right</div>
+          <canvas id="output"></canvas>
+          <video id="video" playsinline></video>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
