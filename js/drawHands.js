@@ -44,6 +44,9 @@ btnClassify.addEventListener("click", () => {
   classify();
   console.log("start classify");
 });
+btnSave.addEventListener("click", () => {
+  knnClassifier.save();
+});
 
 function learn(label) {
   knnClassifier.addExample(resultsArray, label);
@@ -89,6 +92,7 @@ async function main() {
   const video = await setupCamera();
   video.play();
   startLandmarkDetection(video);
+  knnClassifier.load("../model/myKNN.json", () => console.log("model loaded"));
 }
 //
 // start de webcam
